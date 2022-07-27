@@ -25,7 +25,7 @@
 
 select mov_title, mov_year from movie
 
-------2 write a SQL query to find when the movie ‘American Beauty’ released. Return movie release year. ---------------
+------2 write a SQL query to find when the movie ï¿½American Beautyï¿½ released. Return movie release year. ---------------
 select mov_year from movie where mov_title ='American Beauty'
 
 -------3  write a SQL query to find the movie, which was made in the year 1999. Return movie title.--------------
@@ -118,7 +118,7 @@ select   mov_title,mov_year,mov_dt_rel,dir_fname,dir_lname,act_fname,act_lname
 												in (select dir_id from movie_direction where mov_id = movie.mov_id)
 
 
----------5 write a SQL query to find those movies directed by the director whose first name is ‘Woddy’ and last name is ‘Allen’.
+---------5 write a SQL query to find those movies directed by the director whose first name is ï¿½Woddyï¿½ and last name is ï¿½Allenï¿½.
 --Return movie title. -------------
 
 select mov_title 
@@ -169,7 +169,7 @@ select  rev_name,mov_title,rev_stars
 				  order by rev_name,mov_title,rev_stars
 
 ------------10 write a SQL query to find those reviewers who rated more than one movie.
----Group the result set on reviewer’s name, movie title. Return reviewer’s name, movie title.---------------------
+---Group the result set on reviewerï¿½s name, movie title. Return reviewerï¿½s name, movie title.---------------------
 select rev_name ,mov_title 
 	from reviewer , movie
 		where 
@@ -180,10 +180,10 @@ select rev_name ,mov_title
 --Return movie title and maximum number of review stars. --------------------
 
 
-select mov_title ,rev_stars 
+select mov_title ,max(rev_stars) as maximum_stars 
 	from movie ,rating
 		where movie.mov_id 
-			in(select mov_id from rating where rev_stars <=  (select max(rev_stars) from rating))
+			in(select mov_id from rating where rev_stars <=  (select rev_stars from rating))
 			and 
 			rev_stars 
 				in( select rev_stars from rating where mov_id= movie.mov_id) group by mov_title,rev_stars
@@ -208,10 +208,10 @@ select mov_title
 				in (select rev_id from reviewer where rev_name != 'Paul Monks'))
 
 ----------14 write a SQL query to find the lowest rated movies. Return reviewer name, movie title, and number of stars for those movies. -------------------------
-select mov_title ,rev_stars ,rev_name
+select mov_title ,min(rev_stars) as minimum_stars ,rev_name
 	from movie ,rating,reviewer
 		where movie.mov_id 
-			in(select mov_id from rating where rev_stars >= (select min(rev_stars) from rating))
+			in(select mov_id from rating where rev_stars >= (select rev_stars from rating))
 			and 
 			rev_stars 
 				in( select rev_stars from rating where mov_id= movie.mov_id)
@@ -265,7 +265,7 @@ select dir_fname,dir_lname ,mov_title
 						on movie_direction.dir_id = director.dir_id
 							where mov_title='Eyes Wide Shut'
 
----------------4 write a SQL query to find who directed a movie that casted a role as ‘Sean Maguire’.
+---------------4 write a SQL query to find who directed a movie that casted a role as ï¿½Sean Maguireï¿½.
 ---Return director first name, last name and movie title.---------------------------------
 
 select dir_fname,dir_lname ,mov_title
