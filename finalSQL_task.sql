@@ -183,7 +183,7 @@ select rev_name ,mov_title
 select mov_title ,max(rev_stars) as maximum_stars 
 	from movie ,rating
 		where movie.mov_id 
-			in(select mov_id from rating where rev_stars <=  (select rev_stars from rating))
+			in(select mov_id from rating where rev_stars <= any(select rev_stars from rating))
 			and 
 			rev_stars 
 				in( select rev_stars from rating where mov_id= movie.mov_id) group by mov_title,rev_stars
@@ -211,7 +211,7 @@ select mov_title
 select mov_title ,min(rev_stars) as minimum_stars ,rev_name
 	from movie ,rating,reviewer
 		where movie.mov_id 
-			in(select mov_id from rating where rev_stars >= (select rev_stars from rating))
+			in(select mov_id from rating where rev_stars >= any(select rev_stars from rating))
 			and 
 			rev_stars 
 				in( select rev_stars from rating where mov_id= movie.mov_id)
